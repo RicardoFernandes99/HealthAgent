@@ -10,6 +10,6 @@ type Metric struct {
 
 type Collector interface {
 	Name() string
-	Collect() (Metric, error)
+	Collect() ([]Metric, error)
 	Interval() time.Duration
 }

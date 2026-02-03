@@ -17,10 +17,12 @@ func NewStore() *store {
 	}
 }
 
-func (s *store) Set(metric collectors.Metric) {
+func (s *store) Set(metric []collectors.Metric) {
 	s.mu.Lock()         // bloqueia para escrever
 	defer s.mu.Unlock() // garante que desbloqueia no fim da execução
-	s.metrics[metric.Name] = metric
+	for _, value := range metric {
+		s.metrics[value.Name] = value
+	}
 }
 
 func (s *store) Get(name string) (collectors.Metric, bool) {

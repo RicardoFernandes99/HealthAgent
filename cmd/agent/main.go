@@ -45,12 +45,17 @@ func main() {
 			case <-ctx.Done():
 				return
 			case <-ticker.C:
-				metric, exists := store.Get("CPU")
-				if !exists {
-					log.Println("CPU metric not found")
-					continue
+				metric, exists := store.Get("CPU_Usage")
+				cputemp, tempExists := store.Get("CPU_Temperature")
+				if tempExists {
+					log.Printf("Stored CPU Temperature Metric: %.2f°C at %s", cputemp.Value, cputemp.Timestamp.Format("02/01/2006 15:04:05"))
+					if !exists {
+						log.Println("CPU metric not found")
+						continue
+					}
+					log.Printf("Stored CPU Metric: %.2f%% at %s", metric.Value, metric.Timestamp.Format("02/01/2006 15:04:05"))
+					log.Printf("CPU Temp : %.2f%% at %s\n", cputemp.Value, metric.Timestamp.Format("02/01/2006 15:04:05"))
 				}
-				log.Printf("Stored CPU Metric: %.2f%% at %s", metric.Value, metric.Timestamp.Format("02/01/2006 15:04:05"))
 			}
 		}
 	}()
