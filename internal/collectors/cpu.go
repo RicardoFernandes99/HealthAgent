@@ -38,7 +38,6 @@ func (c *CPUCollector) Collect() ([]Metric, error) {
 	})
 
 	temps, err := host.SensorsTemperatures()
-	log.Println("temps:", temps)
 
 	if err != nil {
 		log.Println("Temp not found")
@@ -53,9 +52,6 @@ func (c *CPUCollector) Collect() ([]Metric, error) {
 		})
 
 	}
-
-	log.Println(metrics)
-	log.Printf("CpuCollector : %.2f%%", metrics[0].Value)
 
 	return metrics, nil
 }
